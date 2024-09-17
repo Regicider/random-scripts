@@ -59,8 +59,7 @@ Get-Date | Out-File -FilePath .\cracklins.log -Append
 netstat -an | Select-String "LISTENING" | Out-File -FilePath .\cracklins.log -Append
 
 # Send Home using curl:
-$curlcom="curl -T"+$localFile+"ftp://"+$username+":"+$password+"@10.254.0.89/portdump/"
-bash -c $curlcom
+bash -c "curl -T $localFile ftp://anon@10.254.0.89/portdump/"
 
 #2 min sleep
 Start-Sleep 120
