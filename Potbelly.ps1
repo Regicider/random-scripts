@@ -55,7 +55,7 @@ netstat -an | Select-String "LISTENING" | Out-File -FilePath .\cracklins.log -Ap
 $localFile = (Get-Location).Path + "/cracklins.log"
 Write-Host "Uploading file: $localFile"
 Get-Item $localFile | Select-Object FullName, Length
-bash -c "curl --ftp-pasv -T $localFile ftp://anonymous:anon@10.254.0.89/portdump/cracklins.log"
+bash -c "curl --ftp-pasv -u PD:2222 -T $localFile ftp://10.254.0.89/portdump/cracklins.log"
 
 #2 min sleep
 Start-Sleep 120
