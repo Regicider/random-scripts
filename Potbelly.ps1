@@ -37,13 +37,6 @@ Start-Sleep 120
 elseif ($IsLinux) {
 #man LinRun loop. script will run every 2 min for 1 hr (x30):
 
-#Setup FTP WebReq:
-
-$ftp = "ftp://10.254.0.22/portdump/"
-$username = "anon"
-$password = ""
-$localFile = (Get-Location).Path + "/cracklins.log"
-
 
 for ($cnt = 1; $cnt -le 30; $cnt++)
 
@@ -61,7 +54,8 @@ netstat -an | Select-String "LISTENING" | Out-File -FilePath .\cracklins.log -Ap
 # Send Home using curl:
 Write-Host "Uploading file: $localFile"
 Get-Item $localFile | Select-Object FullName, Length
-bash -c "curl -T $localFile ftp://anonymous:anon@10.254.0.89/portdump/"
+$localFile = (Get-Location).Path + "/cracklins.log"
+bash -c "curl --ftp-pasv -T $localFile ftp://anonymous:anon@10.254.0.89/portdump/"
 
 #2 min sleep
 Start-Sleep 120
