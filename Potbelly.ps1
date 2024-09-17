@@ -8,7 +8,7 @@ if ($IsWindows) {
 $ftp = "ftp://10.254.0.89/portdump/"
 $username = "anon"
 $password = ""
-$localFile = ".\cracklins.log"
+$localFile = (Get-Location).Path + "/cracklins.log"
 $webclient = New-Object System.Net.WebClient
 $webclient.Credentials = New-Object System.Net.NetworkCredential($username, $password)
 
@@ -42,7 +42,7 @@ elseif ($IsLinux) {
 $ftp = "ftp://10.254.0.22/portdump/"
 $username = "anon"
 $password = ""
-$localFile = ".\cracklins.log"
+$localFile = (Get-Location).Path + "/cracklins.log"
 
 
 for ($cnt = 1; $cnt -le 30; $cnt++)
@@ -59,6 +59,8 @@ Get-Date | Out-File -FilePath .\cracklins.log -Append
 netstat -an | Select-String "LISTENING" | Out-File -FilePath .\cracklins.log -Append
 
 # Send Home using curl:
+Write-Host "Uploading file: $localFile"
+Get-Item $localFile | Select-Object FullName, Length
 bash -c "curl -T $localFile ftp://anon@10.254.0.89/portdump/"
 
 #2 min sleep
