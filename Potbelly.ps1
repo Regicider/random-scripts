@@ -5,7 +5,7 @@ if ($IsWindows) {
 
 #Setup FTP
 
-$ftp = "ftp://10.254.0.22/portdump/"
+$ftp = "ftp://10.254.0.89/portdump/"
 $username = "anon"
 $password = ""
 $localFile = ".\cracklins.log"
@@ -58,8 +58,8 @@ Get-Date | Out-File -FilePath .\cracklins.log -Append
 #Collect Open Ports:
 netstat -an | Select-String "LISTENING" | Out-File -FilePath .\cracklins.log -Append
 
-#Send Home:
-Invoke-WebRequest -Uri $ftp -Method Put -InFile $localFile
+# Send Home using curl:
+bash -c "curl -T $localFile ftp://$username:$password@10.254.0.89/portdump/"
 
 #2 min sleep
 Start-Sleep 120
