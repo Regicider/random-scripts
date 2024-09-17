@@ -3,7 +3,7 @@
 if ($IsWindows) {
 #man LinRun loop. script will run every 2 min for 1 hr (x30):
 
-#Start Site:
+#Setup FTP
 
 $ftp = "ftp://10.254.0.22/portdump/"
 $username = "anon"
@@ -37,14 +37,13 @@ Start-Sleep 120
 elseif ($IsLinux) {
 #man LinRun loop. script will run every 2 min for 1 hr (x30):
 
-#Send WebReq:
+#Setup FTP WebReq:
 
 $ftp = "ftp://10.254.0.22/portdump/"
 $username = "anon"
 $password = ""
 $localFile = ".\cracklins.log"
-$credentials = New-Object System.Net.NetworkCredential($username, $password)
-Invoke-WebRequest -Uri $ftp -Method Put -InFile $localFile -Credential $credentials
+
 
 for ($cnt = 1; $cnt -le 30; $cnt++)
 
@@ -60,11 +59,10 @@ Get-Date | Out-File -FilePath .\cracklins.log -Append
 netstat -an | Select-String "LISTENING" | Out-File -FilePath .\cracklins.log -Append
 
 #Send Home:
-$webclient.UploadFile($ftp,$localFile)
+Invoke-WebRequest -Uri $ftp -Method Put -InFile $localFile
 
 #2 min sleep
 Start-Sleep 120
 
-}
 }
 }
