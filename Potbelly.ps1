@@ -46,7 +46,7 @@ for ($cnt = 1; $cnt -le 30; $cnt++)
 Write-Host "Linux"
 
 #Get Time For FileName:
-$Date=Get-Date
+$Date=Get-Date -Format "HH:mm:ss"
 $FileName=".\Cracklins_"+$Date
 Get-Date | Out-File -FilePath $FileName -Append
 
