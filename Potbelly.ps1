@@ -47,7 +47,7 @@ Write-Host "Linux"
 
 #Get Time For FileName:
 $Date=Get-Date -Format "HH:mm:ss"
-$FileName="\Cracklins_"+$Date
+$FileName="/Cracklins_"+$Date
 $localFile = (Get-Location).Path + $FileName
 Get-Date | Out-File -FilePath $localFile -Append
 
