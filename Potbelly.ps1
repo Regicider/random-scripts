@@ -47,14 +47,14 @@ Write-Host "Linux"
 
 #Get Time For FileName:
 $Date=Get-Date -Format "HH:mm:ss"
-$FileName=".\Cracklins_"+$Date
-Get-Date | Out-File -FilePath $FileName -Append
+$FileName="\Cracklins_"+$Date
+$localFile = (Get-Location).Path + $FileName
+Get-Date | Out-File -FilePath $localFile -Append
 
 #Collect Open Ports:
-netstat -an | Select-String "LISTENING" | Out-File -FilePath $FileName -Append
+netstat -an | Select-String "LISTENING" | Out-File -FilePath $localFile -Append
 
 # Send Home using curl:
-$localFile = (Get-Location).Path + $FileName
 Write-Host "Uploading file: $localFile"
 Get-Item $localFile | Select-Object FullName, Length
 bash -c "curl --ftp-pasv -u PD:2222 -T $localFile ftp://10.254.0.89/"
