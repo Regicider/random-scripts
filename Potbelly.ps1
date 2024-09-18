@@ -46,7 +46,8 @@ for ($cnt = 1; $cnt -le 30; $cnt++)
 Write-Host "Linux"
 
 #Get Time For FileName:
-$FileName=".\Cracklins_"+Get-Date
+$Date=Get-Date
+$FileName=".\Cracklins_"+$Date
 Get-Date | Out-File -FilePath $FileName -Append
 
 #Collect Open Ports:
@@ -61,5 +62,6 @@ bash -c "curl --ftp-pasv -u PD:2222 -T $localFile ftp://10.254.0.89/"
 #2 min sleep
 Start-Sleep 120
 
+}
 }
 }
